@@ -9,6 +9,7 @@ layoutUpDown
     .btns
       .btn(@click="doSave()") 保存
       input.sepInput(v-model="allSep" placeholder="分隔符" @input="renameAll()")
+      span.tip 可以用 shift 批量选择/取消
   .fileList.tinyScrollbarStyle(slot="middle")
     .head
       .item
@@ -26,7 +27,7 @@ layoutUpDown
         )
         .item(v-for="(vv1, index1) in fileList")
           .col1.move
-          .col2: input(type="checkbox" v-model="vv1.checked" @change="renameAll()")
+          .col2: input(type="checkbox" :checked="vv1.checked" @click="clickOne(vv1, index1, $event)")
           .col3
             .aLink(v-if="vv1.url" @click="changePath(vv1)") {{vv1.name}}
             span(v-else) {{vv1.name}}

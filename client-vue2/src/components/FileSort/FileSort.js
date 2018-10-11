@@ -32,7 +32,7 @@ export default {
       sortOptions: {
         handle: '.move',
       },
-      // isAllChecked: false,
+      prevIndex: -1,
     }
   },
   watch: {},
@@ -90,6 +90,21 @@ export default {
       this.fileList.forEach((vv1, index1) => {
         vv1.checked = checked
       })
+      this.renameAll()
+    },
+    clickOne(vv1, index1, ee) {
+      const { fileList } = this
+      if (this.prevIndex !== -1 && ee.shiftKey && this.prevIndex !== index1) {
+        const targetValue = fileList[this.prevIndex].checked
+        let from = Math.min(this.prevIndex, index1)
+        let to = Math.max(this.prevIndex, index1)
+        for (; from <= to; from++) {
+          fileList[from].checked = targetValue
+        }
+      } else {
+        vv1.checked = !vv1.checked
+      }
+      this.prevIndex = index1
       this.renameAll()
     },
     renameAll() {

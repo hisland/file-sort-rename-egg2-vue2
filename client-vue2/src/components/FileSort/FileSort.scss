@@ -28,6 +28,13 @@
       height: 30px;
       box-sizing: border-box;
     }
+    .tip {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 13px;
+      color: #999;
+      margin-left: 2em;
+    }
   }
 }
 .aLink {
