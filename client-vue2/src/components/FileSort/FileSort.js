@@ -2,8 +2,21 @@ import axios from 'axios'
 import qs from 'qs'
 
 const apiAxios = axios.create({
-  baseURL: 'http://127.0.0.1:7001',
+  baseURL: '/api',
 })
+
+apiAxios.interceptors.request.use(
+  function(config) {
+    // Do something before request is sent
+    console.log(config.headers)
+    config.headers['x-csrf-token'] = Cookies.get('csrfToken')
+    return config
+  },
+  function(error) {
+    // Do something with request error
+    return Promise.reject(error)
+  }
+)
 
 function bitWidth(len) {
   // 10进制位宽, 0-99 2位, 100-999 3位 ...
@@ -59,7 +72,7 @@ export default {
         })
 
         if (!data.code) {
-          needRenameList.forEach((vv1, index1) => {
+          needRenameList.forEach(vv1 => {
             vv1.name = vv1.newName
           })
         }
@@ -77,7 +90,7 @@ export default {
       const { data } = await apiAxios.get(`/`, {
         params: qs.parse(location.search, { ignoreQueryPrefix: true }),
       })
-      data.fileList.forEach((vv1, index1) => {
+      data.fileList.forEach(vv1 => {
         vv1.checked = false
         vv1.newName = ''
       })
@@ -87,7 +100,7 @@ export default {
     },
     checkAll(ee) {
       const { checked } = ee.target
-      this.fileList.forEach((vv1, index1) => {
+      this.fileList.forEach(vv1 => {
         vv1.checked = checked
       })
       this.renameAll()
@@ -111,7 +124,7 @@ export default {
       const { allSep, checkedList } = this
       let bitLen = bitWidth(checkedList.length)
       checkedList.forEach(function(vv1, index1) {
-        vv1.newName = vv1.name.replace(/(^\d+([\.\-]))?(.+)/, function(
+        vv1.newName = vv1.name.replace(/(^\d+([.-]))?(.+)/, function(
           mm,
           aa,
           bb,
@@ -132,7 +145,7 @@ export default {
       'initState',
       '/?' + qs.stringify({ queryPath: this.queryPath }, { encode: false })
     )
-    window.onpopstate = ee => {
+    window.onpopstate = () => {
       this.getDir()
     }
   },

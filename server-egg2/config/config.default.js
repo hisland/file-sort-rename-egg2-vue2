@@ -9,9 +9,7 @@ module.exports = appInfo => {
   // add your config here
   config.middleware = []
 
-  config.security = {
-    csrf: false, // TODO 用 curl 暂时关闭,
-  }
+  config.security = {}
 
   return config
 }
