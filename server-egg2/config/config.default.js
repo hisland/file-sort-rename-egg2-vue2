@@ -13,6 +13,12 @@ module.exports = appInfo => {
 
   config.security = {}
 
+  config.cluster = {
+    listen: {
+      port: 9990,
+    },
+  }
+
   config.static = {
     prefix: '/',
   }
