@@ -85,7 +85,7 @@ export default {
       history.pushState(
         vv1,
         vv1.name,
-        '/?' + qs.stringify({ queryPath: vv1.url }, { encode: false })
+        '?' + qs.stringify({ queryPath: vv1.url }, { encode: false })
       )
       await this.getDir()
     },
@@ -146,7 +146,7 @@ export default {
         url: this.queryPath,
       },
       'initState',
-      '/?' + qs.stringify({ queryPath: this.queryPath }, { encode: false })
+      '?' + qs.stringify({ queryPath: this.queryPath }, { encode: false })
     )
     window.onpopstate = () => {
       this.getDir()

@@ -17,8 +17,8 @@ layoutUpDown
       .item
         .col1
         .col2: input(type="checkbox" :checked="isAllChecked" @change="checkAll")
-        .col3 原名
-        .col4 新名
+        .col3 原文件名
+        .col4 新文件名
     .body
       .emptyList(v-if="!fileList.length") 没有文件
       draggable(
