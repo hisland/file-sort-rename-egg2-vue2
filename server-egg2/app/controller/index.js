@@ -58,7 +58,6 @@ class UserController extends Controller {
     let fileList = glob.sync('*', {
       cwd: queryPath,
     })
-    console.log(queryPath, fileList)
     fileList = fileList.map(function(oneFile) {
       let fileStat = fs.statSync(nodePath.join(queryPath, oneFile))
       if (fileStat.isDirectory()) {
