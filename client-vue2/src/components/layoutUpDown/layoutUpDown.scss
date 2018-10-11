@@ -1,0 +1,36 @@
+.layoutUpDownMainWrap {
+  display: flex;
+  flex-direction: column;
+}
+.layoutUpDownUp {
+  flex: 0 0 auto;
+}
+.layoutUpDownMiddle {
+  flex: 1;
+  position: relative;
+}
+.layoutUpDownMiddleInner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+.layoutUpDownDown {
+  flex: 0 0 auto;
+}
+
+.absFullType {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+.flexFullType {
+  flex: 1;
+}
+.sizeFullType {
+  width: 100%;
+  height: 100%;
+}

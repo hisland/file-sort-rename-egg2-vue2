@@ -1,12 +1,16 @@
-import apiAxios from 'axios'
+import axios from 'axios'
 import qs from 'qs'
+window.aaa = qs
+const apiAxios = axios.create({
+  baseURL: 'http://127.0.0.1:7001',
+})
 
 export default {
   data() {
     return {
-      leftCurrentItem: {},
-
-      isRemoving: false,
+      queryPath: '',
+      pathSepList: [],
+      fileList: [],
     }
   },
   watch: {},
@@ -28,24 +32,31 @@ export default {
     },
   },
   methods: {
-    async saveEdit() {
-      const editItem = this.popEdit.editModel
-      const { id } = editItem
-      const isUpdate = !!id
-      const { data } = isUpdate
-        ? await apiAxios.put(`${moduleUrl}/${id}`, editItem)
-        : await apiAxios.post(`${moduleUrl}`, editItem)
-      this.$message.success(data.message)
-      this.popEdit.isVisible = false
-      if (isUpdate) {
-        this.updateOne(data.result)
-      } else {
-        data.result.regions = []
-        this.leftQueryList.push(data.result)
-      }
+    async doSave() {
+      const { data } = await apiAxios.put(`/`, {
+        queryPath: this.queryPath,
+      })
+
+      console.log(data)
+    },
+    async changePath(vv1) {
+      history.pushState(
+        vv1,
+        vv1.name,
+        '/?' + qs.stringify({ path: vv1.url }, { encode: false })
+      )
+      await this.getDir()
+    },
+    async getDir() {
+      const { data } = await apiAxios.get(`/`, {
+        params: qs.parse(location.search, { ignoreQueryPrefix: true }),
+      })
+      this.queryPath = data.queryPath
+      this.pathSepList = data.pathSepList
+      this.fileList = data.fileList
     },
   },
   async mounted() {
-    // await this.loadData()
+    await this.getDir()
   },
 }

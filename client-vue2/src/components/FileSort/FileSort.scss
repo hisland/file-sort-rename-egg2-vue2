@@ -1,0 +1,63 @@
+.topArea {
+  border-bottom: 1px solid red;
+  .sepWrap {
+    padding: 10px 30px;
+  }
+  .btns {
+    padding: 10px 30px;
+    .btn {
+      display: inline-block;
+      border: 1px solid green;
+      border-radius: 3px;
+      padding: 5px;
+      &:hover {
+        background: green;
+        color: #fff;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.aLink {
+  display: inline-block;
+  color: blue;
+  margin: 0 3px;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+.fileList {
+  height: 100%;
+  overflow: auto;
+  max-width: 1000px;
+  padding: 10px 30px;
+  box-sizing: border-box;
+
+  .item {
+    display: flex;
+    margin-bottom: 1px;
+    &:hover {
+      background: #eee;
+    }
+    span {
+      margin-right: 3px;
+    }
+  }
+  .col1 {
+    flex: 0 0 1em;
+  }
+  .move {
+    cursor: move;
+    background: green;
+  }
+  .col2 {
+    flex: 0 0 1em;
+  }
+  .col3 {
+    flex: 1 1 18em;
+  }
+  .col4 {
+    flex: 1 1 18em;
+  }
+}

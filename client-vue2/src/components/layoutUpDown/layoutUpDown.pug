@@ -1,0 +1,9 @@
+.layoutUpDownMainWrap(:class="fullClz")
+  .layoutUpDownUp(v-if="$slots.up" :style="upStyle")
+    slot(name="up")
+  .layoutUpDownMiddle
+    .layoutUpDownMiddleInner
+      slot(name="middle")
+  .layoutUpDownDown(v-if="$slots.down" :style="downStyle")
+    slot(name="down")
+  slot
