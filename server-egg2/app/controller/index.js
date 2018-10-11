@@ -8,8 +8,25 @@ const Controller = require('egg').Controller
 
 class UserController extends Controller {
   async save() {
+    const { ctx } = this
+    const { request, service, params } = ctx
+    const { query, body } = request
+    const { queryPath, needRenameList } = body
+
+    let count = 0
+    for (let ii of needRenameList) {
+      let oldPath = nodePath.join(queryPath, ii.name)
+      let newPath = nodePath.join(queryPath, ii.newName)
+      if (oldPath !== newPath && fs.existsSync(oldPath)) {
+        console.log(`rename: ${oldPath} -> ${newPath}`)
+        fs.renameSync(oldPath, newPath)
+        count++
+      }
+    }
+
     this.ctx.body = {
-      ok: 1,
+      code: 0,
+      message: 'rename ' + count + ' count',
     }
   }
   async index() {

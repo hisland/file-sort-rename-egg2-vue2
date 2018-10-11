@@ -7,9 +7,9 @@ layoutUpDown
         :path="vv1.url"
         :key="index1") {{vv1.name}}/
     .btns
-      .btn 保存
+      .btn(@click="doSave()") 保存
       input.sepInput(v-model="allSep" placeholder="分隔符" @input="renameAll()")
-  .fileList(slot="middle")
+  .fileList.tinyScrollbarStyle(slot="middle")
     .head
       .item
         .col1

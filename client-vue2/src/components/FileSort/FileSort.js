@@ -42,14 +42,28 @@ export default {
         return vv.checked
       })
     },
+    checkedList() {
+      return this.fileList.filter(vv => vv.checked)
+    },
   },
   methods: {
     async doSave() {
-      const { data } = await apiAxios.put(`/`, {
-        queryPath: this.queryPath,
-      })
+      const { queryPath } = this
+      const needRenameList = this.checkedList.filter(
+        vv => vv.name !== vv.newName
+      )
+      if (needRenameList.length) {
+        const { data } = await apiAxios.put(`/`, {
+          queryPath,
+          needRenameList,
+        })
 
-      console.log(data)
+        if (!data.code) {
+          needRenameList.forEach((vv1, index1) => {
+            vv1.name = vv1.newName
+          })
+        }
+      }
     },
     async changePath(vv1) {
       history.pushState(
@@ -79,8 +93,7 @@ export default {
       this.renameAll()
     },
     renameAll() {
-      const { allSep } = this
-      let checkedList = this.fileList.filter(vv => vv.checked)
+      const { allSep, checkedList } = this
       let bitLen = bitWidth(checkedList.length)
       checkedList.forEach(function(vv1, index1) {
         vv1.newName = vv1.name.replace(/(^\d+([\.\-]))?(.+)/, function(
