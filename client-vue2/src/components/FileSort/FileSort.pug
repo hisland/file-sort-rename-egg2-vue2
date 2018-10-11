@@ -8,18 +8,26 @@ layoutUpDown
         :key="index1") {{vv1.name}}/
     .btns
       .btn 保存
+      input.sepInput(v-model="allSep" placeholder="分隔符" @input="renameAll()")
   .fileList(slot="middle")
     .head
       .item
-        span.col1
-        span.col2: input(type="checkbox" ng-model="check_all" ng-change="checkAll()")
-        span.col3 原名
-        span.col4 新名
+        .col1
+        .col2: input(type="checkbox" :checked="isAllChecked" @change="checkAll")
+        .col3 原名
+        .col4 新名
     .body
-      .item(v-for="(vv1, index1) in fileList" :key="index1")
-        span.col1
-        span.col2: input(type="checkbox" ng-model="check_all" ng-change="checkAll()")
-        span.col3
-          .aLink(v-if="vv1.url") {{vv1.name}}
-          span(v-else) {{vv1.name}}
-        span.col4 新名
+      .emptyList(v-if="!fileList.length") 没有文件
+      draggable(
+        v-else
+        v-model="fileList"
+        :options="sortOptions"
+        @end="renameAll()"
+        )
+        .item(v-for="(vv1, index1) in fileList")
+          .col1.move
+          .col2: input(type="checkbox" v-model="vv1.checked" @change="renameAll()")
+          .col3
+            .aLink(v-if="vv1.url" @click="changePath(vv1)") {{vv1.name}}
+            span(v-else) {{vv1.name}}
+          .col4(v-if="vv1.checked") {{vv1.newName}}

@@ -1,34 +1,46 @@
 import axios from 'axios'
 import qs from 'qs'
-window.aaa = qs
+
 const apiAxios = axios.create({
   baseURL: 'http://127.0.0.1:7001',
 })
 
+function bitWidth(len) {
+  // 10进制位宽, 0-99 2位, 100-999 3位 ...
+  if (len < 101) {
+    // 因为是从0开始计数, 需要比正常多1
+    return 2
+  }
+  return Math.floor(Math.log10(len)) + 1
+}
+
+function prefix0(val, len) {
+  let rs = val + ''
+  while (rs.length < len) {
+    rs = '0' + rs
+  }
+  return rs
+}
+
 export default {
   data() {
     return {
+      allSep: '',
       queryPath: '',
       pathSepList: [],
       fileList: [],
+      sortOptions: {
+        handle: '.move',
+      },
+      // isAllChecked: false,
     }
   },
   watch: {},
   computed: {
-    groupList() {
-      const { listPROVINCE, listCITY } = cityToAlphaGroup(
-        this.leftCurrentItem.regions
-      )
-      return [
-        {
-          name: '省列表',
-          list: listPROVINCE,
-        },
-        {
-          name: '市列表',
-          list: listCITY,
-        },
-      ]
+    isAllChecked() {
+      return this.fileList.every(vv => {
+        return vv.checked
+      })
     },
   },
   methods: {
@@ -43,7 +55,7 @@ export default {
       history.pushState(
         vv1,
         vv1.name,
-        '/?' + qs.stringify({ path: vv1.url }, { encode: false })
+        '/?' + qs.stringify({ queryPath: vv1.url }, { encode: false })
       )
       await this.getDir()
     },
@@ -51,12 +63,49 @@ export default {
       const { data } = await apiAxios.get(`/`, {
         params: qs.parse(location.search, { ignoreQueryPrefix: true }),
       })
+      data.fileList.forEach((vv1, index1) => {
+        vv1.checked = false
+        vv1.newName = ''
+      })
       this.queryPath = data.queryPath
       this.pathSepList = data.pathSepList
       this.fileList = data.fileList
     },
+    checkAll(ee) {
+      const { checked } = ee.target
+      this.fileList.forEach((vv1, index1) => {
+        vv1.checked = checked
+      })
+      this.renameAll()
+    },
+    renameAll() {
+      const { allSep } = this
+      let checkedList = this.fileList.filter(vv => vv.checked)
+      let bitLen = bitWidth(checkedList.length)
+      checkedList.forEach(function(vv1, index1) {
+        vv1.newName = vv1.name.replace(/(^\d+([\.\-]))?(.+)/, function(
+          mm,
+          aa,
+          bb,
+          cc
+        ) {
+          return prefix0(index1, bitLen) + (allSep || bb || '.') + cc
+        })
+      })
+    },
   },
   async mounted() {
     await this.getDir()
+    history.replaceState(
+      {
+        name: 'initState',
+        url: this.queryPath,
+      },
+      'initState',
+      '/?' + qs.stringify({ queryPath: this.queryPath }, { encode: false })
+    )
+    window.onpopstate = ee => {
+      this.getDir()
+    }
   },
 }

@@ -7,14 +7,26 @@
     padding: 10px 30px;
     .btn {
       display: inline-block;
+      vertical-align: middle;
       border: 1px solid green;
       border-radius: 3px;
-      padding: 5px;
+      padding: 5px 10px;
+      font-size: 14px;
       &:hover {
         background: green;
         color: #fff;
         cursor: pointer;
       }
+    }
+    .sepInput {
+      display: inline-block;
+      vertical-align: middle;
+      border: 1px solid green;
+      border-radius: 3px;
+      margin-left: 2em;
+      padding: 7px;
+      height: 30px;
+      box-sizing: border-box;
     }
   }
 }
@@ -36,7 +48,6 @@
 
   .item {
     display: flex;
-    margin-bottom: 1px;
     &:hover {
       background: #eee;
     }
@@ -50,6 +61,7 @@
   .move {
     cursor: move;
     background: green;
+    border-bottom: 1px solid #fff;
   }
   .col2 {
     flex: 0 0 1em;
@@ -60,4 +72,15 @@
   .col4 {
     flex: 1 1 18em;
   }
+
+  .sortable-ghost {
+    background-color: red !important;
+    color: #fff !important;
+  }
+  .sortable-chosen {
+  }
+}
+.emptyList {
+  padding: 20px;
+  color: #999;
 }
