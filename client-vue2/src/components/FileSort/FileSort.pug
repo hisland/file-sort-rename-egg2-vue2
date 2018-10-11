@@ -2,10 +2,12 @@ layoutUpDown
   .topArea(slot="up")
     .sepWrap
       .aLink(
-        v-for="(vv1, index1) in pathSepList"
+        v-for="(vv1, index1) in navList"
         @click="changePath(vv1)"
         :path="vv1.url"
         :key="index1") {{vv1.name}}/
+      span {{endOne.name}}/
+      span.refreshBtn(@click="getDir()") 刷新
     .btns
       .btn(@click="doSave()") 保存
       input.sepInput(v-model="allSep" placeholder="分隔符" @input="renameAll()")

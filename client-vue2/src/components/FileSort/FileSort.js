@@ -7,13 +7,10 @@ const apiAxios = axios.create({
 
 apiAxios.interceptors.request.use(
   function(config) {
-    // Do something before request is sent
-    console.log(config.headers)
     config.headers['x-csrf-token'] = Cookies.get('csrfToken')
     return config
   },
   function(error) {
-    // Do something with request error
     return Promise.reject(error)
   }
 )
@@ -57,6 +54,12 @@ export default {
     },
     checkedList() {
       return this.fileList.filter(vv => vv.checked)
+    },
+    navList() {
+      return this.pathSepList.slice(0, -1)
+    },
+    endOne() {
+      return this.pathSepList.slice(-1)[0] || {}
     },
   },
   methods: {
