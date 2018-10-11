@@ -65,14 +65,15 @@
   padding: 20px 30px 50vh;
   box-sizing: border-box;
   font-family: monospace;
+  font-size: 14px;
 
   .item {
     display: flex;
     &:hover {
       background: #eee;
     }
-    span {
-      margin-right: 3px;
+    .justFile {
+      margin: 0 3px;
     }
   }
   .col1 {

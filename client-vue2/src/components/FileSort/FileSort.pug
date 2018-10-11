@@ -32,5 +32,5 @@ layoutUpDown
           .col2: input(type="checkbox" :checked="vv1.checked" @click="clickOne(vv1, index1, $event)")
           .col3
             .aLink(v-if="vv1.url" @click="changePath(vv1)") {{vv1.name}}
-            span(v-else) {{vv1.name}}
+            span.justFile(v-else) {{vv1.name}}
           .col4(v-if="vv1.checked") {{vv1.newName}}

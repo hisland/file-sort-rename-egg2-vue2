@@ -23,11 +23,5 @@ module.exports = appInfo => {
     prefix: '/',
   }
 
-  config.siteFile = {
-    '/favicon.ico': fs.readFileSync(
-      path.join(__dirname, '../app/public/favicon.ico')
-    ),
-  }
-
   return config
 }
